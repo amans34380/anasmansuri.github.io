@@ -1,506 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Anas Mansuri | IT Portfolio</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
+    .project.featured { grid-column: span 8; }
+    .project.compact { grid-column: span 4; }
+    .project-index { color: var(--green); font: 700 .78rem ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .12em; }
+    .project h3 { margin: auto 0 .55rem; font-size: 1.55rem; letter-spacing: -.025em; }
+    .project p { margin: 0 0 1rem; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .tag { padding: .28rem .6rem; color: #c9efff; background: rgba(85, 194, 255, .08); border: 1px solid rgba(85, 194, 255, .2); border-radius: 999px; font-size: .75rem; font-weight: 700; }
+    .skills { grid-template-columns: repeat(3, 1fr); }
+    .skill { padding: 1.4rem; }
+    .skill strong { display: block; margin-bottom: .7rem; color: var(--blue); }
+    .skill p { margin: 0; color: var(--muted); font-size: .94rem; }
+    .about { display: grid; grid-template-columns: 1.1fr .9fr; gap: 1rem; }
+    .about-copy, .facts { padding: clamp(1.4rem, 3vw, 2.2rem); }
+    .about-copy p { margin: 0; color: var(--muted); font-size: 1.08rem; }
+    .facts { display: grid; gap: .8rem; }
+    .fact { padding-bottom: .8rem; border-bottom: 1px solid var(--line); }
+    .fact:last-child { border: 0; padding-bottom: 0; }
+    .fact small { display: block; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+    .contact { padding: clamp(2rem, 6vw, 4.5rem); text-align: center; }
+    .contact h2 { margin: 0 0 .8rem; font-size: clamp(2.3rem, 6vw, 4.5rem); letter-spacing: -.055em; }
+    .contact p { max-width: 620px; margin: 0 auto; color: var(--muted); }
+    .contact .actions { justify-content: center; }
+    footer { padding: 2rem 0; color: var(--muted); border-top: 1px solid var(--line); font-size: .9rem; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 1rem; }
+    @media (max-width: 800px) {
+      .nav-links a:not(.nav-cta) { display: none; }
+      header { min-height: auto; padding-top: 7rem; }
+      .section-head, .about { grid-template-columns: 1fr; }
+      .project, .project.featured, .project.compact { grid-column: 1 / -1; min-height: 290px; }
+      .skills { grid-template-columns: 1fr; }
     }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b1120;
-      color: #e5e7eb;
-      line-height: 1.6;
-    }
-
-    nav {
-      position: sticky;
-      top: 0;
-      background: rgba(11, 17, 32, 0.95);
-      padding: 18px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #1f2937;
-      z-index: 1000;
-    }
-
-    nav h2 {
-      color: #38bdf8;
-    }
-
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 22px;
-    }
-
-    nav a {
-      color: #e5e7eb;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      color: #38bdf8;
-    }
-
-    header {
-      min-height: 90vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 70px 20px;
-      background:
-        radial-gradient(circle at top, #172554 0%, #0b1120 55%);
-    }
-
-    .hero {
-      max-width: 850px;
-    }
-
-    .hero h1 {
-      font-size: 56px;
-      margin-bottom: 15px;
-    }
-
-    .hero h1 span {
-      color: #38bdf8;
-    }
-
-    .hero h3 {
-      font-size: 25px;
-      color: #94a3b8;
-      margin-bottom: 22px;
-    }
-
-    .hero p {
-      max-width: 680px;
-      margin: auto;
-      font-size: 18px;
-      color: #cbd5e1;
-    }
-
-    .buttons {
-      margin-top: 32px;
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 12px 23px;
-      border-radius: 8px;
-      background: #38bdf8;
-      color: #08111f;
-      text-decoration: none;
-      font-weight: bold;
-      border: 2px solid #38bdf8;
-    }
-
-    .button.secondary {
-      background: transparent;
-      color: #38bdf8;
-    }
-
-    .button:hover {
-      transform: translateY(-2px);
-      opacity: 0.9;
-    }
-
-    section {
-      padding: 80px 8%;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 36px;
-      color: #38bdf8;
-      margin-bottom: 40px;
-    }
-
-    .about-box {
-      background: #111827;
-      border: 1px solid #263244;
-      padding: 32px;
-      border-radius: 14px;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    .skills-grid,
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 22px;
-    }
-
-    .card {
-      background: #111827;
-      padding: 26px;
-      border-radius: 14px;
-      border: 1px solid #263244;
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      border-color: #38bdf8;
-    }
-
-    .card h3 {
-      color: #7dd3fc;
-      margin-bottom: 13px;
-    }
-
-    .card p {
-      color: #cbd5e1;
-      margin-bottom: 14px;
-    }
-
-    .card ul {
-      padding-left: 20px;
-      color: #cbd5e1;
-    }
-
-    .tag {
-      display: inline-block;
-      background: #1e3a5f;
-      color: #bae6fd;
-      padding: 5px 10px;
-      margin: 4px 3px;
-      border-radius: 20px;
-      font-size: 13px;
-    }
-
-    .project-link {
-      color: #38bdf8;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .contact-box {
-      text-align: center;
-      background: #111827;
-      padding: 35px;
-      border-radius: 14px;
-      border: 1px solid #263244;
-    }
-
-    .contact-box p {
-      margin: 10px 0;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px;
-      border-top: 1px solid #1f2937;
-      color: #94a3b8;
-    }
-
-    @media (max-width: 720px) {
-      nav {
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      nav ul {
-        gap: 12px;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .hero h1 {
-        font-size: 39px;
-      }
-
-      .hero h3 {
-        font-size: 20px;
-      }
-    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
   </style>
 </head>
-
 <body>
-
-  <nav>
-    <h2>Anas Mansuri</h2>
-
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+  <a class="skip" href="#main">Skip to content</a>
+  <nav aria-label="Primary navigation">
+    <div class="nav-inner wrap">
+      <a class="brand" href="#top">Anas<span>.</span></a>
+      <div class="nav-links">
+        <a href="#work">Work</a><a href="#skills">Skills</a><a href="#about">About</a>
+        <a class="nav-cta" href="#contact">Contact ↗</a>
+      </div>
+    </div>
   </nav>
 
-  <header>
-    <div class="hero">
-      <p>Hello, my name is</p>
-
-      <h1>Anas <span>Mansuri</span></h1>
-
-      <h3>Computer Engineering Technology Student</h3>
-
-      <p>
-        I am an aspiring IT professional interested in cloud computing,
-        networking, cybersecurity, embedded systems, Linux administration,
-        and artificial intelligence.
-      </p>
-
-      <div class="buttons">
-        <a class="button" href="#projects">View My Projects</a>
-
-        <a
-          class="button secondary"
-          href="https://www.linkedin.com/in/anas-mansuri-32b64b220"
-          target="_blank"
-        >
-          LinkedIn
-        </a>
+  <main id="main">
+    <header id="top">
+      <div class="wrap">
+        <div class="eyebrow">Cloud · Networks · Embedded Systems</div>
+        <h1>I build reliable systems from <span>board to cloud.</span></h1>
+        <p class="intro">I’m Anas Mansuri, a Computer Engineering Technology student at Seneca Polytechnic. I design practical infrastructure, networking, and embedded-system solutions with security and reliability in mind.</p>
+        <div class="actions">
+          <a class="button" href="#work">Explore my work ↓</a>
+          <a class="button secondary" href="https://github.com/amans34380" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a class="button secondary" href="https://www.linkedin.com/in/anas-mansuri-32b64b220" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+        </div>
+        <div class="status">Based in Toronto · Open to internships and entry-level opportunities</div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <section id="about">
-    <h2 class="section-title">About Me</h2>
-
-    <div class="about-box">
-      <p>
-        I am a Computer Engineering Technology student at Seneca Polytechnic
-        in Toronto, Ontario. I have hands-on experience with AWS, Linux,
-        networking, embedded systems, FreeRTOS, C, C++, Python, Windows Server,
-        Wireshark, and cloud infrastructure.
-      </p>
-
-      <br>
-
-      <p>
-        I enjoy solving technical problems, building reliable systems, and
-        learning new technologies. My career goal is to work in cloud
-        computing, network engineering, cybersecurity, or artificial
-        intelligence.
-      </p>
-    </div>
-  </section>
-
-  <section id="skills">
-    <h2 class="section-title">Technical Skills</h2>
-
-    <div class="skills-grid">
-
-      <div class="card">
-        <h3>Cloud Computing</h3>
-        <span class="tag">AWS EC2</span>
-        <span class="tag">AWS S3</span>
-        <span class="tag">AWS Lambda</span>
-        <span class="tag">IAM</span>
-        <span class="tag">VPC</span>
-        <span class="tag">Security Groups</span>
+    <section id="work">
+      <div class="wrap">
+        <div class="section-head"><h2>Selected work</h2><p>Hands-on projects across cloud infrastructure, enterprise networking, and real-time embedded development.</p></div>
+        <div class="grid">
+          <article class="card project featured"><span class="project-index">01 / CLOUD</span><h3>Secure Linux File Server</h3><p>Deployed NFS and Samba services on AWS EC2 with permission controls, firewall rules, DNS testing, and restricted Security Group access.</p><div class="tags"><span class="tag">AWS EC2</span><span class="tag">Linux</span><span class="tag">Samba</span><span class="tag">NFS</span><span class="tag">Security Groups</span></div></article>
+          <article class="card project compact"><span class="project-index">02 / EMBEDDED</span><h3>FreeRTOS System</h3><p>Built multitasking firmware for the FRDM-K64F using tasks, semaphores, timers, GPIO interrupts, and LED control.</p><div class="tags"><span class="tag">C</span><span class="tag">FreeRTOS</span><span class="tag">FRDM-K64F</span></div></article>
+          <article class="card project compact"><span class="project-index">03 / HARDWARE</span><h3>PWM LED Controller</h3><p>Created a 1 kHz interrupt-driven PWM controller with adjustable duty cycle and UART status output.</p><div class="tags"><span class="tag">PWM</span><span class="tag">GPIO</span><span class="tag">UART</span></div></article>
+          <article class="card project featured"><span class="project-index">04 / NETWORKS</span><h3>Enterprise Network Lab</h3><p>Configured and tested Active Directory, DNS, DHCP, firewalls, and access controls across Windows and Linux systems, then analyzed traffic with Wireshark.</p><div class="tags"><span class="tag">Active Directory</span><span class="tag">DNS</span><span class="tag">DHCP</span><span class="tag">Wireshark</span></div></article>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>Networking</h3>
-        <span class="tag">TCP/IP</span>
-        <span class="tag">DNS</span>
-        <span class="tag">DHCP</span>
-        <span class="tag">VLAN</span>
-        <span class="tag">Wireshark</span>
-        <span class="tag">Cisco Packet Tracer</span>
+    <section id="skills">
+      <div class="wrap">
+        <div class="section-head"><h2>Technical toolkit</h2><p>Focused on the technologies I can apply in real lab and project environments.</p></div>
+        <div class="grid skills">
+          <div class="card skill"><strong>Cloud & infrastructure</strong><p>AWS EC2, S3, Lambda, IAM, VPC, EBS, Security Groups</p></div>
+          <div class="card skill"><strong>Networks & systems</strong><p>TCP/IP, DNS, DHCP, VLANs, Linux, Windows Server, Active Directory</p></div>
+          <div class="card skill"><strong>Embedded & software</strong><p>C, C++, Python, FreeRTOS, MCUXpresso, PWM, GPIO, interrupts</p></div>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>Operating Systems</h3>
-        <span class="tag">Linux</span>
-        <span class="tag">Windows Server</span>
-        <span class="tag">macOS</span>
-        <span class="tag">Active Directory</span>
-        <span class="tag">Bash</span>
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head"><h2>About me</h2><p>Curious about the whole stack—and happiest when theory becomes a working system.</p></div>
+        <div class="about">
+          <div class="card about-copy"><p>I’m studying Computer Engineering Technology at Seneca Polytechnic in Toronto. My interests sit where cloud infrastructure, network engineering, cybersecurity, and embedded computing meet. I enjoy troubleshooting difficult technical problems, documenting what I learn, and building systems that are understandable and dependable.</p></div>
+          <div class="card facts"><div class="fact"><small>Education</small>Seneca Polytechnic</div><div class="fact"><small>Location</small>Toronto, Ontario, Canada</div><div class="fact"><small>Currently exploring</small>Cloud security and artificial intelligence</div></div>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>Programming</h3>
-        <span class="tag">C</span>
-        <span class="tag">C++</span>
-        <span class="tag">Python</span>
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-      </div>
+    <section id="contact">
+      <div class="wrap"><div class="card contact"><div class="eyebrow">Let’s connect</div><h2>Have a role or project in mind?</h2><p>I’m interested in internships, junior technical roles, and conversations about cloud, networking, security, or embedded systems.</p><div class="actions"><a class="button" href="https://www.linkedin.com/in/anas-mansuri-32b64b220" target="_blank" rel="noreferrer">Message me on LinkedIn ↗</a><a class="button secondary" href="https://github.com/amans34380" target="_blank" rel="noreferrer">View GitHub ↗</a></div></div></div>
+    </section>
+  </main>
 
-      <div class="card">
-        <h3>Embedded Systems</h3>
-        <span class="tag">FRDM-K64F</span>
-        <span class="tag">FreeRTOS</span>
-        <span class="tag">MCUXpresso</span>
-        <span class="tag">PWM</span>
-        <span class="tag">GPIO</span>
-        <span class="tag">Interrupts</span>
-      </div>
-
-      <div class="card">
-        <h3>Tools</h3>
-        <span class="tag">GitHub</span>
-        <span class="tag">VMware</span>
-        <span class="tag">VirtualBox</span>
-        <span class="tag">Draw.io</span>
-        <span class="tag">Microsoft Office</span>
-      </div>
-
-    </div>
-  </section>
-
-  <section id="projects">
-    <h2 class="section-title">Projects</h2>
-
-    <div class="projects-grid">
-
-      <div class="card">
-        <h3>AWS Linux File Server</h3>
-
-        <p>
-          Configured AWS EC2 Linux instances to support secure NFS and Samba
-          file sharing.
-        </p>
-
-        <ul>
-          <li>Configured NFS and Samba shares</li>
-          <li>Managed Linux users and permissions</li>
-          <li>Configured firewalld rules</li>
-          <li>Restricted access using AWS Security Groups</li>
-          <li>Tested hostname and DNS resolution</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>AWS Cloud Infrastructure</h3>
-
-        <p>
-          Built and managed cloud resources using AWS services.
-        </p>
-
-        <ul>
-          <li>Created EC2 instances and EBS volumes</li>
-          <li>Configured VPCs and subnets</li>
-          <li>Used S3 for cloud storage</li>
-          <li>Created Lambda functions</li>
-          <li>Configured IAM permissions</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>FreeRTOS Embedded System</h3>
-
-        <p>
-          Developed multitasking applications on the FRDM-K64F
-          microcontroller.
-        </p>
-
-        <ul>
-          <li>Created FreeRTOS tasks</li>
-          <li>Used binary semaphores</li>
-          <li>Implemented software timers</li>
-          <li>Configured GPIO interrupts</li>
-          <li>Controlled onboard LEDs</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>PWM LED Controller</h3>
-
-        <p>
-          Designed an embedded PWM controller using push buttons and LEDs.
-        </p>
-
-        <ul>
-          <li>Generated a 1 kHz PWM signal</li>
-          <li>Adjusted duty cycle from 0% to 100%</li>
-          <li>Used hardware button interrupts</li>
-          <li>Displayed status messages through UART</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>Enterprise Network Administration</h3>
-
-        <p>
-          Configured and tested Windows and Linux network services.
-        </p>
-
-        <ul>
-          <li>Active Directory and user management</li>
-          <li>DNS and DHCP configuration</li>
-          <li>Network traffic analysis with Wireshark</li>
-          <li>Firewall and access-control testing</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>Office Technology Upgrade</h3>
-
-        <p>
-          Designed an IT modernization plan for a video production studio.
-        </p>
-
-        <ul>
-          <li>Selected Apple hardware and software</li>
-          <li>Created an equipment invoice</li>
-          <li>Designed a network diagram</li>
-          <li>Planned data backup and MDM solutions</li>
-          <li>Prepared an e-waste reduction plan</li>
-        </ul>
-      </div>
-
-    </div>
-  </section>
-
-  <section id="contact">
-    <h2 class="section-title">Contact</h2>
-
-    <div class="contact-box">
-      <h3>Let’s Connect</h3>
-
-      <p>Toronto, Ontario, Canada</p>
-
-      <p>
-        LinkedIn:
-        <a
-          class="project-link"
-          href="https://www.linkedin.com/in/anas-mansuri-32b64b220"
-          target="_blank"
-        >
-          View Profile
-        </a>
-      </p>
-
-      <p>
-        GitHub:
-        <a
-          class="project-link"
-          href="https://github.com/amans34380"
-          target="_blank"
-        >
-          github.com/amans34380
-        </a>
-      </p>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2026 Anas Mansuri. All rights reserved.</p>
-  </footer>
-
+  <footer><div class="wrap"><span>© 2026 Anas Mansuri</span><span>Designed and built in Toronto</span></div></footer>
 </body>
 </html>
